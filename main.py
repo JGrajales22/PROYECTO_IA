@@ -21,7 +21,7 @@ async def webhook(data: Mensaje):
     mensaje = data.message
 
     response = openai.ChatCompletion.create(
-        model="gpt-4o-mini",
+        model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": mensaje}]
     )
 
