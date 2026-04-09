@@ -1,11 +1,13 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from openai import OpenAI
 import openai
 import os
 
 app = FastAPI()
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+#openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # 👇 DEFINIMOS EL JSON CORRECTAMENTE
 class Mensaje(BaseModel):
@@ -20,11 +22,12 @@ async def webhook(data: Mensaje):
     
     mensaje = data.message
 
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": mensaje}]
-    )
+    response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[{"role": "user", "content": mensaje}]
+)
 
     return {
         "respuesta": response["choices"][0]["message"]["content"]
     }
+
