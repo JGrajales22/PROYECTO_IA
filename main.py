@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from openai import OpenAI
-import openai
 import os
 
 app = FastAPI()
