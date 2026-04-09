@@ -6,9 +6,7 @@ import os
 app = FastAPI()
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-#openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# 👇 DEFINIMOS EL JSON CORRECTAMENTE
 class Mensaje(BaseModel):
     message: str
 
@@ -18,15 +16,22 @@ def home():
 
 @app.post("/webhook")
 async def webhook(data: Mensaje):
-    
-    mensaje = data.message
 
-    response = client.chat.completions.create(
-    model="gpt-4o-mini",
-    messages=[{"role": "user", "content": mensaje}]
-)
+    try:
+        mensaje = data.message
 
-    return {
-        "respuesta": response["choices"][0]["message"]["content"]
-    }
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "user", "content": mensaje}
+            ]
+        )
 
+        return {
+            "respuesta": response.choices[0].message.content
+        }
+
+    except Exception as e:
+        return {
+            "error": str(e)
+        }
