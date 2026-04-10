@@ -43,7 +43,7 @@ async def webhook(data: Mensaje):
         # 2. Ejecutar SQL
         try:
             url = "https://pureness-dig-magnetize.ngrok-free.dev/query"
-            datos = requests.get(url, params={"sql": query_sql}, timeout=8).json()
+            datos = requests.get(url, params={"sql": query_sql}, timeout=20).json()
         except Exception as e:
             return {"error_sql": str(e), "query": query_sql}
 
