@@ -53,7 +53,7 @@ async def webhook(data: Mensaje):
         # =========================
         try:
             url = "https://pureness-dig-magnetize.ngrok-free.dev/query"
-            response_db = requests.get(url, params={"sql": query_sql}, timeout=10)
+            response_db = requests.get(url, params={"sql": query_sql}, timeout=50)
 
             datos = response_db.json()
 
