@@ -5,10 +5,10 @@ app = FastAPI()
 
 conn = pyodbc.connect(
     "DRIVER={ODBC Driver 18 for SQL Server};"
-    "SERVER=localhost;"
-    "DATABASE=TU_BASE;"
-    "UID=TU_USUARIO;"
-    "PWD=TU_PASSWORD;"
+    "SERVER=10.29.113.5;"
+    "DATABASE=BD1;"
+    "UID=sa;"
+    "PWD=Cubano.2019;"
     "TrustServerCertificate=yes;"
 )
 
