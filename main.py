@@ -5,7 +5,8 @@ from openai import OpenAI
 
 app = FastAPI()
 
-client = OpenAI(api_key="TU_API_KEY")
+import os
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 class Mensaje(BaseModel):
     message: str
