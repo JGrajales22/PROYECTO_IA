@@ -18,7 +18,7 @@ class Mensaje(BaseModel):
 def consultar_sql(query):
     try:
         url = "https://pureness-dig-magnetize.ngrok-free.dev/query"
-        response = requests.get(url, params={"sql": query})
+        response = requests.get(url, params={"sql": query}, timeout=10)
         return response.json()
     except Exception as e:
         return {"error": str(e)}
