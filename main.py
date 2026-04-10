@@ -41,6 +41,9 @@ async def webhook(data: Mensaje):
 
         query_sql = response.choices[0].message.content.strip()
 
+        # 🔥 limpiar formato markdown
+        query_sql = query_sql.replace("```sql", "").replace("```", "").strip()
+
         # 2. Ejecutar SQL
         try:
             url = "https://pureness-dig-magnetize.ngrok-free.dev/query"
