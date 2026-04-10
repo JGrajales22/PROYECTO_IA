@@ -23,29 +23,35 @@ async def webhook(data: Mensaje):
         # =========================
         # 🧠 1. GENERAR SQL
         # =========================
-        prompt_sql = f"""
+        prompt = f"""
         Eres experto en SQL Server.
 
-        Tabla ventas:
-        - id
+        Tabla: ALBVENTACAB
+        Campos comunes:
         - fecha
         - total
         - cliente
 
+        Reglas:
+        - SIEMPRE usar TOP 10 si es consulta de datos
+        - SIEMPRE usar filtros por fecha cuando sea posible
+        - NO traer todos los registros
+
         Convierte esta pregunta en SQL:
         {mensaje}
 
-        ⚠️ Responde SOLO SQL plano, sin markdown, sin ``` ni explicaciones.
+        Responde SOLO SQL limpio, sin ``` ni texto extra.
         """
 
         response_sql = client.chat.completions.create(
             model="gpt-4o-mini",
-            messages=[{"role": "user", "content": prompt_sql}]
+            messages=[{"role": "user", "content": prompt}]
         )
 
-        query_sql = response_sql.choices[0].message.content.strip()
-
         # 🔥 limpiar por si acaso
+        query_sql = response_sql.choices[0].message.content.strip()
+ 
+        # limpiar basura tipo ```sql
         query_sql = query_sql.replace("```sql", "").replace("```", "").strip()
 
         # =========================
