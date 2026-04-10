@@ -3,25 +3,31 @@ import pyodbc
 
 app = FastAPI()
 
-# 🔌 CONEXIÓN SQL SERVER
 conn = pyodbc.connect(
     "DRIVER={ODBC Driver 18 for SQL Server};"
-    "SERVER=10.29.113.5;"
-    "DATABASE=BD1;"
-    "UID=sa;"
-    "PWD=Cubano.2019;"
+    "SERVER=localhost;"
+    "DATABASE=TU_BASE;"
+    "UID=TU_USUARIO;"
+    "PWD=TU_PASSWORD;"
     "TrustServerCertificate=yes;"
 )
 
 @app.get("/query")
 def ejecutar_query(sql: str):
-    cursor = conn.cursor()
-    cursor.execute(sql)
+    try:
+        cursor = conn.cursor()
+        cursor.execute(sql)
 
-    columns = [column[0] for column in cursor.description]
-    results = []
+        columns = [column[0] for column in cursor.description]
 
-    for row in cursor.fetchall():
-        results.append(dict(zip(columns, row)))
+        results = []
+        for row in cursor.fetchall():
+            results.append(dict(zip(columns, row)))
 
-    return results
+        return results
+
+    except Exception as e:
+        return {
+            "error": str(e),
+            "sql": sql
+        }
