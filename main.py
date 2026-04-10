@@ -26,21 +26,31 @@ async def webhook(data: Mensaje):
         prompt = f"""
         Eres experto en SQL Server.
 
-        Tabla: ALBVENTACAB
-        Campos comunes:
-        - fecha
-        - total
-        - cliente
+        La tabla principal se llama ALBVENTACAB.
+
+        Columnas disponibles:
+        - NUMSERIE
+        - NUMALBARAN
+        - FECHA
+        - TOTALNETO
+        - TOTAL
+        - FO
+        - CLIENTE
+
+        Convierte la pregunta del usuario en SQL Server válido.
 
         Reglas:
-        - SIEMPRE usar TOP 10 si es consulta de datos
-        - SIEMPRE usar filtros por fecha cuando sea posible
-        - NO traer todos los registros
+        - Usa SOLO columnas existentes
+        - Usa SELECT solamente
+        - No uses INSERT, UPDATE o DELETE
+        - Usa TOP 10 cuando aplique
+        - Para ventas totales usa TOTALNETO
+        - Usa filtros de fecha eficientes
+        - No uses markdown ni explicaciones
+        - Responde SOLO SQL
 
-        Convierte esta pregunta en SQL:
+        Pregunta:
         {mensaje}
-
-        Responde SOLO SQL limpio, sin ``` ni texto extra.
         """
 
         response_sql = client.chat.completions.create(
